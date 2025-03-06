@@ -7,7 +7,7 @@ EasyR1 is efficient and scalable due to the design of **[HybirdEngine](https://a
 ## Features
 
 - Supported models
-  - Qwen2/Qwen2.5 language models
+  - Llama3/Qwen2/Qwen2.5 language models
   - Qwen2/Qwen2.5-VL vision language models
   - DeepSeek-R1 distill models
 
@@ -18,6 +18,11 @@ EasyR1 is efficient and scalable due to the design of **[HybirdEngine](https://a
 
 - Supported datasets
   - Any text, vision-text dataset in a [specific format](#custom-dataset).
+
+- Supported tricks
+  - Padding-free training
+  - Resuming from checkpoint
+  - Wandb & SwanLab tracking
 
 ## Requirements
 
@@ -82,6 +87,12 @@ Please refer to the example datasets to prepare your own dataset.
 
 - Text dataset: https://huggingface.co/datasets/hiyouga/math12k
 - Vision-text dataset: https://huggingface.co/datasets/hiyouga/geometry3k
+
+## How to Understand GRPO in EasyR1
+
+![image](assets/easyr1_grpo.png)
+
+- To learn about the GRPO algorithm, you can refer to [Hugging Face's blog](https://huggingface.co/docs/trl/v0.15.2/en/grpo_trainer#looking-deeper-into-the-grpo-method).
 
 ## Other Baselines
 
