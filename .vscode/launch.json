@@ -1,0 +1,52 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "r1-video",
+            "type": "python",
+            "request": "launch",
+            "program": "-m",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": {
+                "VLLM_ATTENTION_BACKEND": "XFORMERS",
+            },
+            "args": [
+                "verl.trainer.main",
+                "config=examples/grpo_example.yaml",
+                "data.train_files=/mnt/dolphinfs/ssd_pool/docker/user/hadoop-mtcv/lihongyu/projects/video_llm/codes/VLM-R1/src/EasyR1/scripts/tvg.yaml",
+                "data.val_files=/mnt/dolphinfs/ssd_pool/docker/user/hadoop-mtcv/lihongyu/projects/video_llm/codes/VLM-R1/src/EasyR1/scripts/tvg.yaml",
+                "data.system_prompt=You FIRST think about the reasoning process as an internal monologue and then provide the final answer.The reasoning process MUST BE enclosed within <think> </think> tags. The final answer MUST BE put in <answer> </answer> tags. Output the final answer in JSON format.",
+                "data.max_prompt_length=2048",
+                "worker.actor.model.model_path=/mnt/dolphinfs/hdd_pool/docker/user/hadoop-mtcv/lihongyu/Qwen/Qwen2.5-VL-3B-Instruct",
+                "worker.rollout.tensor_parallel_size=1",
+                "worker.rollout.enable_chunked_prefill=false",
+                "trainer.experiment_name=qwen2_5_vl_3b_tvg_debug",
+                "trainer.n_gpus_per_node=2",
+                "trainer.logger=[\"console\"]",
+                "data.min_pixels=2048",
+                "data.max_pixels=4096",
+                "trainer.val_before_train=false"
+            ],
+            // "cwd": "${workspaceFolder}/src/EasyR1", // 设置运行路径
+        },
+        {
+            "name": "dataset",
+            "type": "python",
+            "request": "launch",
+            "program": "-m",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "env": {
+                "VLLM_ATTENTION_BACKEND": "XFORMERS",
+            },
+            "args": [
+                "verl.utils.dataset_video",
+            ],
+            // "cwd": "${workspaceFolder}//", // 设置运行路径
+        }
+    ]
+}

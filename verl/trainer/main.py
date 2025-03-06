@@ -20,6 +20,11 @@ import json
 import ray
 from omegaconf import OmegaConf
 
+from pathlib import Path
+import sys
+path1 = str(Path(__file__).joinpath("../../..").resolve())
+sys.path.append(path1)
+
 from ..single_controller.ray import RayWorkerGroup
 from ..utils.tokenizer import get_processor, get_tokenizer
 from ..workers.fsdp_workers import FSDPWorker

@@ -78,9 +78,16 @@ class DataParallelPPOActor(BasePPOActor):
         multi_modal_inputs = {}
         if "multi_modal_inputs" in micro_batch:
             for key in micro_batch["multi_modal_inputs"][0].keys():
-                multi_modal_inputs[key] = torch.cat(
-                    [inputs[key] for inputs in micro_batch["multi_modal_inputs"]], dim=0
-                )
+                value = micro_batch["multi_modal_inputs"][0][key]
+                if isinstance(value, torch.Tensor):
+                    multi_modal_inputs[key] = torch.cat(
+                        [inputs[key] for inputs in micro_batch["multi_modal_inputs"]], dim=0
+                    )
+                else:
+                    value_list = []
+                    for inputs in micro_batch["multi_modal_inputs"]:
+                        value_list.extend(inputs[key])
+                    multi_modal_inputs[key] = value_list
 
         with torch.autocast(device_type="cuda", dtype=torch.bfloat16):
             if self.config.padding_free:

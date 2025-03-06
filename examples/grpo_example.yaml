@@ -64,8 +64,9 @@ trainer:
   n_gpus_per_node: 8
   nnodes: 1
   save_freq: 5
-  val_freq: 5
+  val_freq: 5000000
   val_before_train: true
   val_only: false
   val_generations_to_log_to_wandb: 1
-  save_checkpoint_path: null
+  save_checkpoint_path: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-mtcv/lihongyu/projects/video_llm/codes/EasyR1/checkpoints/${trainer.project_name}/${trainer.experiment_name}  # 模型训练完后的保存路径
+

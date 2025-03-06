@@ -35,7 +35,7 @@ from ..single_controller.base import Worker
 from ..single_controller.ray import RayClassWithInitArgs, RayResourcePool, RayWorkerGroup
 from ..single_controller.ray.base import create_colocated_worker_cls
 from ..utils import torch_functional as VF
-from ..utils.dataset import RLHFDataset, collate_fn
+from ..utils.dataset_video import RLHFDataset, collate_fn
 from ..utils.seqlen_balancing import get_seqlen_balanced_partitions, log_seqlen_unbalance
 from ..utils.tracking import Tracking
 from ..workers.fsdp_workers import FSDPWorker
