@@ -4,8 +4,8 @@ type = ml-vision
 
 [resource]
 usergroup = hadoop-mtcv
-queue = root.zw05_training_cluster.hadoop-vision.mmt
-# queue = root.zw05_training_cluster.hadoop-vision.elastic_job
+# queue = root.zw05_training_cluster.hadoop-vision.mmt
+queue = root.zw05_training_cluster.hadoop-vision.elastic_job
 # queue = root.zw05_training_cluster.hadoop-vision.job
 
 ## 数据集信息（支持配置多个，位置需一一对应，','分隔）
@@ -29,15 +29,15 @@ demand_id = 4016
 
 [roles]
 workers = 1
-worker.memory = 450000
-worker.vcore = 60
-worker.gcores80g = 4
-# worker.memory = 900000
-# worker.vcore = 120
-# worker.gcores80g = 8
+# worker.memory = 450000
+# worker.vcore = 60
+# worker.gcores40g = 4
+worker.memory = 900000
+worker.vcore = 120
+worker.gcores40g = 8
 
 ## worker启动后执行的脚本，一般为训练作业的执行命令
-worker.script = bash examples/tvg/run_qwen2_5_vl_3b_tvg_large.sh 4
+worker.script = bash examples/tvg/run_qwen2_5_vl_3b_tvg_correct.sh 8
 
 
 ## worker端python脚本的输入参数

@@ -232,9 +232,24 @@ class RLHFDataset(Dataset):
             ]
             row_dict['problem_type'] = 'rerank'
         else:
+            video_path = os.path.join(self.data_folders[source], data_item['video'])
+            problem = data_item["problem"]
+            # problem = f"{problem} First output the thinking process in <think> </think> tags and then output the final answer in <answer> </answer> tags. Output the final answer in JSON format."
             messages = [
-                {"role": "user", "content": data_item['problem']},
+                {"role": "user", "content": [
+                    {
+                        "type": "video", 
+                        "total_pixels": self.max_pixels, 
+                        "min_pixels": self.min_pixels,
+                        "video": video_path,
+                    },
+                    {
+                        "type": "text", 
+                        "text": problem
+                    },
+                ]},
             ]
+            row_dict['problem_type'] = 'tvg'
         
         if self.system_prompt:
             messages.insert(0, {"role": "system", "content": self.system_prompt})
@@ -251,6 +266,8 @@ class RLHFDataset(Dataset):
             nframe_inputs = video_inputs[0].shape[0]
             length_inputs = nframe_inputs / fps_inputs
             row_dict['video_length'] = length_inputs
+        else:
+            row_dict['video_length'] = data_item['video_length']
 
         model_inputs = self.processor(
             text=prompt,
@@ -299,14 +316,15 @@ if __name__ == "__main__":
     model_path = "/mnt/dolphinfs/hdd_pool/docker/user/hadoop-mtcv/lihongyu/Qwen/Qwen2.5-VL-3B-Instruct"
     data_path = '/mnt/dolphinfs/ssd_pool/docker/user/hadoop-mtcv/lihongyu/projects/video_llm/codes/VLM-R1/src/EasyR1/scripts/tvg.yaml'
     tokenizer = get_tokenizer(model_path)
-    processor = get_processor(model_path, use_fast=True)
+    processor = get_processor(model_path, use_fast=False)
 
     dataset = RLHFDataset(
         data_path,
         tokenizer,
         processor,
-        min_pixels=2048,
-        max_pixels=14 * 14 * 1024,
+        min_pixels=2592,
+        max_pixels=2592*2
+        # max_pixels=14 * 14 * 1024 * 8,
     )
     # Qwen-VL patch size 2 * 14 * 14
     for data in dataset:

@@ -26,6 +26,8 @@ GPUS=$1
 SAMPLE_N=8
 KL_LOSS_COEF=1e-2
 GLOBAL_BS=16
+MIN_PIXELS=9874
+# 4938 9874
 SYSTEM_PROMPT="""You FIRST think about the reasoning process as an internal monologue and then provide the final answer.
  The reasoning process MUST BE enclosed within <think> </think> tags. The final answer MUST BE put in <answer> </answer> tags. Output the final answer in JSON format."""
 
@@ -47,13 +49,13 @@ python3 -m verl.trainer.main \
     worker.rollout.n=${SAMPLE_N} \
     worker.rollout.tensor_parallel_size=1 \
     worker.rollout.enable_chunked_prefill=false \
-    trainer.experiment_name=qwen2_5_vl_3b_tvg_gpu_${GPUS}_v3_kl_${KL_LOSS_COEF}_n_${SAMPLE_N}_format_1_gbs_$GLOBAL_BS \
+    trainer.experiment_name=qwen2_5_vl_3b_tvg_gpu_${GPUS}_v3_kl_${KL_LOSS_COEF}_n_${SAMPLE_N}_format_1_gbs_${GLOBAL_BS}_correct_${MIN_PIXELS} \
     trainer.n_gpus_per_node=$GPUS \
     trainer.val_generations_to_log=10 \
     trainer.save_freq=50 \
     trainer.val_before_train=false \
     trainer.logger=[\"console\",\"wandb\"] \
-    data.min_pixels=2592 \
+    data.min_pixels=${MIN_PIXELS} \
     data.max_pixels=20736 \
     data.system_prompt="${SYSTEM_PROMPT}" 
 

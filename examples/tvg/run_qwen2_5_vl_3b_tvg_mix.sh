@@ -25,7 +25,7 @@ source /mnt/dolphinfs/ssd_pool/docker/user/hadoop-mtcv/lihongyu/conda/bin/activa
 GPUS=$1
 SAMPLE_N=8
 KL_LOSS_COEF=1e-2
-GLOBAL_BS=16
+GLOBAL_BS=32
 SYSTEM_PROMPT="""You FIRST think about the reasoning process as an internal monologue and then provide the final answer.
  The reasoning process MUST BE enclosed within <think> </think> tags. The final answer MUST BE put in <answer> </answer> tags. Output the final answer in JSON format."""
 
@@ -33,27 +33,27 @@ MODEL_PATH=/mnt/dolphinfs/hdd_pool/docker/user/hadoop-mtcv/lihongyu/Qwen/Qwen2.5
 
 python3 -m verl.trainer.main \
     config=examples/grpo_example.yaml \
-    data.train_files=/mnt/dolphinfs/ssd_pool/docker/user/hadoop-mtcv/lihongyu/projects/video_llm/codes/VLM-R1/src/EasyR1/scripts/tvg.yaml \
+    data.train_files=/mnt/dolphinfs/ssd_pool/docker/user/hadoop-mtcv/lihongyu/projects/video_llm/codes/VLM-R1/src/open-r1-multimodal-new/data_config/tvg_mix.yaml \
     data.val_files=/mnt/dolphinfs/ssd_pool/docker/user/hadoop-mtcv/lihongyu/projects/video_llm/codes/VLM-R1/src/EasyR1/scripts/tvg.yaml \
-    data.max_prompt_length=2048 \
-    data.max_response_length=2048 \
+    data.max_prompt_length=4096 \
+    data.max_response_length=4096 \
     data.rollout_batch_size=$GLOBAL_BS \
     worker.actor.global_batch_size=$GLOBAL_BS \
     worker.actor.entropy_coeff=1e-3 \
     worker.actor.kl_loss_coef=${KL_LOSS_COEF} \
-    worker.actor.micro_batch_size_per_device_for_update=4 \
-    worker.actor.micro_batch_size_per_device_for_experience=8 \
+    worker.actor.micro_batch_size_per_device_for_update=8 \
+    worker.actor.micro_batch_size_per_device_for_experience=16 \
     worker.actor.model.model_path=${MODEL_PATH} \
     worker.rollout.n=${SAMPLE_N} \
     worker.rollout.tensor_parallel_size=1 \
     worker.rollout.enable_chunked_prefill=false \
-    trainer.experiment_name=qwen2_5_vl_3b_tvg_gpu_${GPUS}_v3_kl_${KL_LOSS_COEF}_n_${SAMPLE_N}_format_1_gbs_$GLOBAL_BS \
+    trainer.experiment_name=qwen2_5_vl_3b_tvg_gpu_${GPUS}_v3_kl_${KL_LOSS_COEF}_n_${SAMPLE_N}_format_1_gbs_${GLOBAL_BS}_mix_large \
     trainer.n_gpus_per_node=$GPUS \
     trainer.val_generations_to_log=10 \
     trainer.save_freq=50 \
     trainer.val_before_train=false \
     trainer.logger=[\"console\",\"wandb\"] \
     data.min_pixels=2592 \
-    data.max_pixels=20736 \
+    data.max_pixels=1605632 \
     data.system_prompt="${SYSTEM_PROMPT}" 
 

@@ -48,7 +48,7 @@ python3 -m verl.trainer.main \
     worker.rollout.enable_chunked_prefill=false \
     trainer.experiment_name=qwen2_5_vl_3b_tvg_gpu_${GPUS}_v3_kl_${KL_LOSS_COEF}_n_${SAMPLE_N}_large \
     trainer.n_gpus_per_node=$GPUS \
-    trainer.val_generations_to_log_to_wandb=10 \
+    trainer.val_generations_to_log=10 \
     trainer.save_freq=50 \
     trainer.val_before_train=false \
     trainer.logger=[\"console\",\"wandb\"] \
