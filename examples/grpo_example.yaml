@@ -4,7 +4,7 @@ data:
   prompt_key: problem
   answer_key: answer
   image_key: images
-  max_prompt_length: 1024
+  max_prompt_length: 2048
   max_response_length: 2048
   rollout_batch_size: 512
   shuffle: true
@@ -22,8 +22,9 @@ worker:
     micro_batch_size_per_device_for_update: 4
     micro_batch_size_per_device_for_experience: 16
     max_grad_norm: 1.0
+    entropy_coeff: 1.0e-3
     use_kl_loss: true
-    kl_loss_coef: 1.0e-3
+    kl_loss_coef: 1.0e-2
     kl_loss_type: low_var_kl
     padding_free: true
     ulysses_sequence_parallel_size: 1
@@ -31,6 +32,7 @@ worker:
       model_path: Qwen/Qwen2.5-7B-Instruct
       enable_gradient_checkpointing: true
       trust_remote_code: false
+      freeze_vision_tower: false
     optim:
       lr: 1.0e-6
       weight_decay: 1.0e-2
@@ -50,11 +52,15 @@ worker:
     enforce_eager: false
     enable_chunked_prefill: false
     tensor_parallel_size: 2
-    limit_images: 1
+    limit_images: 0
 
   ref:
+    fsdp:
+      enable_full_shard: true
+      enable_cpu_offload: true
+      enable_rank0_init: true
     offload:
-      offload_params: true
+      offload_params: false
 
   reward:
     reward_type: function

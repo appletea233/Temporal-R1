@@ -35,10 +35,10 @@ EasyR1 is efficient and scalable due to the design of **[HybirdEngine](https://a
 
 We provide a [Dockerfile](./Dockerfile) to easily build environments.
 
-Use [pre-built docker image](https://hub.docker.com/r/hiyouga/verl):
+We recommend using the [pre-built docker image](https://hub.docker.com/r/hiyouga/verl) in EasyR1.
 
 ```bash
-docker pull hiyouga/verl:ngc-th2.5.1-cu120-vllm0.7.3-rc1
+docker pull hiyouga/verl:ngc-th2.5.1-cu120-vllm0.7.4-hotfix
 ```
 
 ### Hardware Requirements
@@ -50,6 +50,8 @@ docker pull hiyouga/verl:ngc-th2.5.1-cu120-vllm0.7.3-rc1
 | GRPO Full Fine-Tuning    |  AMP | 2*24GB | 4*40GB | 8*40GB |
 
 > [!NOTE]
+> At least 2 GPUs are needed to run EasyR1.
+>
 > We are working hard to reduce the VRAM in RL training, LoRA support will be integrated in next updates.
 
 ## Tutorial: Run Qwen2.5-VL GRPO on [Geometry3K](https://huggingface.co/datasets/hiyouga/geometry3k) Dataset in Just 3 Steps
@@ -76,7 +78,7 @@ bash examples/run_qwen2_5_vl_7b_geo.sh
 python3 scripts/model_merger.py --local_dir path_to_your_last_actor_checkpoint
 ```
 
-> [!NOTE]
+> [!TIP]
 > If you encounter issues with connecting to Hugging Face, consider using `export HF_ENDPOINT=https://hf-mirror.com`.
 >
 > If you want to use SwanLab logger, consider using `bash examples/run_qwen2_5_vl_7b_geo_swanlab.sh`.
@@ -88,15 +90,26 @@ Please refer to the example datasets to prepare your own dataset.
 - Text dataset: https://huggingface.co/datasets/hiyouga/math12k
 - Vision-text dataset: https://huggingface.co/datasets/hiyouga/geometry3k
 
+> [!TIP]
+> EasyR1 already supports multi-image dataset.
+
 ## How to Understand GRPO in EasyR1
 
 ![image](assets/easyr1_grpo.png)
 
-- To learn about the GRPO algorithm, you can refer to [Hugging Face's blog](https://huggingface.co/docs/trl/v0.15.2/en/grpo_trainer#looking-deeper-into-the-grpo-method).
+- To learn about the GRPO algorithm, you can refer to [Hugging Face's blog](https://huggingface.co/docs/trl/v0.15.2/en/grpo_trainer).
+- Different from TRL's GRPO trainer, our trainer supports mini-batch update as described in the [original PPO paper](https://arxiv.org/abs/1707.06347).
 
 ## Other Baselines
 
+We also implemented the following two baselines from [R1-V](https://github.com/deep-agent/R1-V) project.
 - [CLEVR-70k-Counting](examples/run_qwen2_5_vl_3b_clevr.sh): Train the Qwen2.5-VL-3B-Instruct model on counting problem.
+- [GeoQA-8k](examples/run_qwen2_5_vl_3b_geoqa8k.sh): Train the Qwen2.5-VL-3B-Instruct model on GeoQA problem.
+
+## Awesome Work using EasyR1
+
+- MMR1: Advancing the Frontiers of Multimodal Reasoning ([repo](https://github.com/LengSicong/MMR1)).
+- Vision-R1: Incentivizing Reasoning Capability in Multimodal Large Language Models ([paper](https://arxiv.org/abs/2503.06749), [repo](https://github.com/Osilly/Vision-R1)).
 
 ## TODO
 
@@ -112,7 +125,6 @@ Please refer to the example datasets to prepare your own dataset.
 These features are temporarily disabled for now, we plan to fix them one-by-one in the future updates.
 
 - Vision language models are not compatible with ulysses parallelism yet.
-- Vision language models are not compatible with `enable_chunked_prefill` unless [vLLM v1](https://blog.vllm.ai/2025/01/27/v1-alpha-release.html) is supported.
 
 ## Discussion Group
 
