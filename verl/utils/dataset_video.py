@@ -192,64 +192,25 @@ class RLHFDataset(Dataset):
         source = data_item['dataset']
         row_dict = dict()
 
-        if source in ['charades_train']:
-            video_path = os.path.join(self.data_folders[source], data_item['video'])
-            problem = data_item["problem"]
-            # problem = f"{problem} First output the thinking process in <think> </think> tags and then output the final answer in <answer> </answer> tags. Output the final answer in JSON format."
-            messages = [
-                {"role": "user", "content": [
-                    {
-                        "type": "video", 
-                        "total_pixels": self.max_pixels, 
-                        "min_pixels": self.min_pixels,
-                        "video": video_path,
-                    },
-                    {
-                        "type": "text", 
-                        "text": problem
-                    },
-                ]},
-            ]
-            row_dict['problem_type'] = 'tvg'
-        elif source in ['youcook_rerank_train']:
-            images_path = data_item['sampled_frame_paths']
-            # image_content = 
-            messages = [
-                {"role": "user", "content": [
-                    {
-                        "type": "video",                         
-                        "total_pixels": self.max_pixels // 8, 
-                        "max_pixels": self.max_pixels // 8, 
-                        "min_pixels": self.min_pixels // 8,
-                        "video": images_path,
-                        "fps": 1.0,
-                    },
-                    {
-                        "type": "text", 
-                        "text": data_item["problem"]
-                    },
-                ]},
-            ]
-            row_dict['problem_type'] = 'rerank'
-        else:
-            video_path = os.path.join(self.data_folders[source], data_item['video'])
-            problem = data_item["problem"]
-            # problem = f"{problem} First output the thinking process in <think> </think> tags and then output the final answer in <answer> </answer> tags. Output the final answer in JSON format."
-            messages = [
-                {"role": "user", "content": [
-                    {
-                        "type": "video", 
-                        "total_pixels": self.max_pixels, 
-                        "min_pixels": self.min_pixels,
-                        "video": video_path,
-                    },
-                    {
-                        "type": "text", 
-                        "text": problem
-                    },
-                ]},
-            ]
-            row_dict['problem_type'] = 'tvg'
+
+        video_path = os.path.join(self.data_folders[source], data_item['video'])
+        problem = data_item["problem"]
+        # problem = f"{problem} First output the thinking process in <think> </think> tags and then output the final answer in <answer> </answer> tags. Output the final answer in JSON format."
+        messages = [
+            {"role": "user", "content": [
+                {
+                    "type": "video", 
+                    "total_pixels": self.max_pixels, 
+                    "min_pixels": self.min_pixels,
+                    "video": video_path,
+                },
+                {
+                    "type": "text", 
+                    "text": problem
+                },
+            ]},
+        ]
+        row_dict['problem_type'] = 'tvg'
         
         if self.system_prompt:
             messages.insert(0, {"role": "system", "content": self.system_prompt})

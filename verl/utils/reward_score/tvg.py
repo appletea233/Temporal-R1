@@ -44,6 +44,6 @@ def tvg_compute_score(predict_str: str, ground_truth: list, video_length: float)
     acc_reward = tvg_accuracy_reward(predict_str, ground_truth, video_length)
     format_reward = tvg_format_reward(predict_str)
     # print(f"acc: {acc_reward}, format: {format_reward}")
-    reward = 0.9 * acc_reward + 0.1 * format_reward
+    reward = 0.5 * acc_reward + 0.5 * format_reward
     # reward /= 2
     return reward

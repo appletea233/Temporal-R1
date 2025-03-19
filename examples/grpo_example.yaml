@@ -80,5 +80,5 @@ trainer:
   save_freq: 5
   remove_previous_ckpt: false
   remove_ckpt_after_load: false
-  save_checkpoint_path: /mnt/dolphinfs/ssd_pool/docker/user/hadoop-mtcv/lihongyu/projects/video_llm/codes/EasyR1/checkpoints/${trainer.project_name}/${trainer.experiment_name}  # 模型训练完后的保存路径
+  save_checkpoint_path: checkpoints/${trainer.project_name}/${trainer.experiment_name}
   load_checkpoint_path: null

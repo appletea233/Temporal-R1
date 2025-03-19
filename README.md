@@ -1,157 +1,75 @@
-# EasyR1: An Efficient, Scalable, Multi-Modality RL Training Framework
+# Temporal-R1: Envolving Temporal Reasoning Capability into LMMs via Temporal Consistent Reward
 
-This project is a clean fork of the original [veRL](https://github.com/volcengine/verl) project to support vision language models, we thank all the authors for providing such a high-performance RL training framework.
+<div align="center">
+<img src="./pics/intro img.png" width="500"/>
+</div>
 
-EasyR1 is efficient and scalable due to the design of **[HybirdEngine](https://arxiv.org/abs/2409.19256)** and the latest release of **[vLLM](https://github.com/vllm-project/vllm)**'s SPMD mode.
+## Project Introduction
+Thanks to the powerful performance of reasoning capabilities of DeepSeek-R1, reinforcement learning-based fine-tuning paradigms have garnered widespread attention from researchers. Some studies have explored the preliminary performance of GRPO in multimodal tasks, such as object localization, counting, etc. We investigate the potential of GRPO in the video temporal grounding task, which demands precise temporal alignment between visual and linguistic modalities as well as advanced reasoning capabilities. This task is particularly well-suited for our approach due to its reliance on fine-grained temporal dynamics, which facilitate the development of intuitive rule-based reward mechanisms and enable the model to iteratively refine its reasoning and outputs.
 
-## Features
+## News
+[2025/3/20] 🔥 The xxx has been released! Please check our huggingface repo. [[Checkpoints](https://huggingface.co/datasets/)]
 
-- Supported models
-  - Llama3/Qwen2/Qwen2.5 language models
-  - Qwen2/Qwen2.5-VL vision language models
-  - DeepSeek-R1 distill models
+## Experimental Setting
+* Training-Framework: We utilize the [Easy-R1](https://github.com/hiyouga/EasyR1) framework and contribute through code and bug fixes.
+* Model: We select [Qwen2.5-VL-3B](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct) as base model.
+* Dataset: Charades, ActivityNet-tvg and ActivityNet-rtl.
 
-- Supported algorithms
-  - GRPO
-  - Remax
-  - others RL algorithms (comming soon)
-
-- Supported datasets
-  - Any text, vision-text dataset in a [specific format](#custom-dataset).
-
-- Supported tricks
-  - Padding-free training
-  - Resuming from checkpoint
-  - Wandb & SwanLab tracking
-
-## Requirements
-
-### Software Requirements
-
-- Python 3.9+
-- transformers>=4.49.0
-- flash-attn>=2.4.3
-- vllm>=0.7.3
-
-We provide a [Dockerfile](./Dockerfile) to easily build environments.
-
-We recommend using the [pre-built docker image](https://hub.docker.com/r/hiyouga/verl) in EasyR1.
-
-```bash
-docker pull hiyouga/verl:ngc-th2.5.1-cu120-vllm0.7.4-hotfix
+## Installation Guide
+Clone the repository:
 ```
-
-### Hardware Requirements
-
-\* *estimated*
-
-| Method                   | Bits |  1.5B  |   3B   |   7B   |
-| ------------------------ | ---- | ------ | ------ | ------ |
-| GRPO Full Fine-Tuning    |  AMP | 2*24GB | 4*40GB | 8*40GB |
-
-> [!NOTE]
-> At least 2 GPUs are needed to run EasyR1.
->
-> We are working hard to reduce the VRAM in RL training, LoRA support will be integrated in next updates.
-
-## Tutorial: Run Qwen2.5-VL GRPO on [Geometry3K](https://huggingface.co/datasets/hiyouga/geometry3k) Dataset in Just 3 Steps
-
-![image](assets/qwen2_5_vl_7b_geo.png)
-
-### Installation
-
-```bash
-git clone https://github.com/hiyouga/EasyR1.git
-cd EasyR1
-pip install -e .
+git clone https://github.com/your-username/Temporal-R1.git
 ```
-
-### GRPO Training
-
-```bash
-bash examples/run_qwen2_5_vl_7b_geo.sh
+Install dependencies:
 ```
-
-### Merge Checkpoint in Hugging Face Format
-
-```bash
-python3 scripts/model_merger.py --local_dir path_to_your_last_actor_checkpoint
+pip install -r requirements.txt
 ```
+## Usage Instructions
+Prepare Data: Place your temporal sequence data in the data/ directory.
+Train the Model:
+```
+python train.py --config configs/default.yaml
+```
+Run Inference:
+```
+python inference.py --model_path models/best_model.pth
+```
+## Experimental Results
+| Para. | token         | RL  |think | mIoU(Charades)  | mIoU(ANet-tvg, OOD)       |
+|------|------------------|----------|------------|------------|-----------|
+| 3b    | 2048         | ❌     | ❌ | 37.22     | 18.92 |
+| 3b    | 2048         | SFT    | ❌ | 45.95     | 20.86 |
+| 3b    | 2048         | ✅     | ✅ | 53.93 <span style="color: green;">(**+7.98**)</span>    | 23.07 <span style="color: green;">(**+2.21**)</span>|
 
-> [!TIP]
-> If you encounter issues with connecting to Hugging Face, consider using `export HF_ENDPOINT=https://hf-mirror.com`.
->
-> If you want to use SwanLab logger, consider using `bash examples/run_qwen2_5_vl_7b_geo_swanlab.sh`.
+**1. Video Temporal Grounding Results**
 
-## Custom Dataset
+Experimental results demonstrate that, compared to the SFT model, the GRPO-trained model not only achieves significant performance improvements but also exhibits reasoning ("think") capabilities and stronger generalization. Specifically, the mIoU on the Charades dataset increased by **+7.98**, while the mIoU on the ActivityNet benchmark also showed a improvement (**+2.21**). These findings indicate that GRPO training enables the model to perform better in complex tasks and adapt more effectively to diverse data distributions.
 
-Please refer to the example datasets to prepare your own dataset.
+**2.Training Phenomena**
 
-- Text dataset: https://huggingface.co/datasets/hiyouga/math12k
-- Vision-text dataset: https://huggingface.co/datasets/hiyouga/geometry3k
+<div align="center">
+<img src="./pics/reward curve.png" width="400"/> <img src="./pics/token len.png" width="400"/>
+</div>
+From the left figure, it can be observed that the average reward increases progressively during training and eventually converges to a stable value. This indicates that the reward we design is reasonable and effectively guides the model in optimizing the objective and is improving performance. The right figure illustrates the variation in the token length of responses. Initially, the length increases rapidly, followed by a sharp decline, and then fluctuates upward within a certain range. This phenomenon is consistent with the training characteristics of DeepSeek-Zero, reflecting the model’s adaptive adjustment of length during generation. Such dynamic changes may represent the model's natural behavior in balancing output quality and complexity, further validating the effectiveness and rationality of the training strategy.
 
-> [!TIP]
-> EasyR1 already supports multi-image dataset.
 
-## How to Understand GRPO in EasyR1
+## TODO:
 
-![image](assets/easyr1_grpo.png)
+-Scale up model, datasets
 
-- To learn about the GRPO algorithm, you can refer to [Hugging Face's blog](https://huggingface.co/docs/trl/v0.15.2/en/grpo_trainer).
-- Different from TRL's GRPO trainer, our trainer supports mini-batch update as described in the [original PPO paper](https://arxiv.org/abs/1707.06347).
+-Widen more downstream tasks, e.g., VideoQA, Temporal Referring, Video Captioning, etc.
 
-## Other Baselines
-
-We also implemented the following two baselines from [R1-V](https://github.com/deep-agent/R1-V) project.
-- [CLEVR-70k-Counting](examples/run_qwen2_5_vl_3b_clevr.sh): Train the Qwen2.5-VL-3B-Instruct model on counting problem.
-- [GeoQA-8k](examples/run_qwen2_5_vl_3b_geoqa8k.sh): Train the Qwen2.5-VL-3B-Instruct model on GeoQA problem.
-
-## Awesome Work using EasyR1
-
-- MMR1: Advancing the Frontiers of Multimodal Reasoning ([repo](https://github.com/LengSicong/MMR1)).
-- Vision-R1: Incentivizing Reasoning Capability in Multimodal Large Language Models ([paper](https://arxiv.org/abs/2503.06749), [repo](https://github.com/Osilly/Vision-R1)).
-
-## TODO
-
-- Support PPO, Reinforce++ and RLOO for VLMs.
-- Support ulysses parallelism for VLMs.
-- Support more VLM architectures.
-
-> [!NOTE]
-> We will not provide scripts for supervised fine-tuning and inference in this project. If you have such requirements, we recommend using [LLaMA-Factory](https://github.com/hiyouga/LLaMA-Factory).
-
-### Known bugs
-
-These features are temporarily disabled for now, we plan to fix them one-by-one in the future updates.
-
-- Vision language models are not compatible with ulysses parallelism yet.
-
-## Discussion Group
-
-👋 Join our [WeChat group](assets/wechat.jpg).
+## Acknowledgments
+We want to thank [EasyR1](https://github.com/hiyouga/EasyR1), [Qwen2.5-VL](https://github.com/QwenLM/Qwen2.5-VL), [llama-factory](https://github.com/hiyouga/LLaMA-Factory) and [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval) for publicly releasing their code and pretrained models.
 
 ## Citation
-
-Core contributors: [Yaowei Zheng](https://github.com/hiyouga), [Junting Lu](https://github.com/AL-377), [Shenzhi Wang](https://github.com/Shenzhi-Wang), [Zhangchi Feng](https://github.com/BUAADreamer), [Dongdong Kuang](https://github.com/Kuangdd01) and Yuwen Xiong
-
-We also thank Guangming Sheng and Chi Zhang for helpful discussions.
+Contributors: [Hongyu Li](https://github.com/appletea233), [Songhao Han](https://github.com/hshjerry), [Yue Liao](https://github.com/YueLiao), [Jialin Gao](https://scholar.google.com/citations?user=sj4FqEgAAAAJ&hl=zh-CN), [Si Liu](https://scholar.google.com/citations?user=-QtVtNEAAAAJ&hl=zh-CN)
 
 ```bibtex
-@misc{zheng2025easyr1,
-  title        = {EasyR1: An Efficient, Scalable, Multi-Modality RL Training Framework},
-  author       = {Yaowei Zheng, Junting Lu, Shenzhi Wang, Zhangchi Feng, Dongdong Kuang, Yuwen Xiong},
-  howpublished = {\url{https://github.com/hiyouga/EasyR1}},
+@misc{li2025temporalr1,
+  title        = {Temporal-R1: Envolving Temporal Reasoning Capability into LMMs via Temporal Consistent Reward},
+  author       = {Hongyu Li, Songhao Han, Yue Liao, Jialin Gao, Si Liu},
+  howpublished = {\url{https://github.com/appletea233/Temporal-R1}},
   year         = {2025}
-}
-```
-
-We recommend to also cite the original work.
-
-```bibtex
-@article{sheng2024hybridflow,
-  title   = {HybridFlow: A Flexible and Efficient RLHF Framework},
-  author  = {Guangming Sheng and Chi Zhang and Zilingfeng Ye and Xibin Wu and Wang Zhang and Ru Zhang and Yanghua Peng and Haibin Lin and Chuan Wu},
-  year    = {2024},
-  journal = {arXiv preprint arXiv: 2409.19256}
 }
 ```

@@ -17,7 +17,7 @@ import torch
 from transformers import PreTrainedTokenizer
 
 from ... import DataProto
-from ...utils.reward_score import math_compute_score, r1v_compute_score, tvg_compute_score, rerank_compute_score
+from ...utils.reward_score import math_compute_score, r1v_compute_score, tvg_compute_score
 
 
 class CustomRewardManager:
@@ -58,8 +58,6 @@ class CustomRewardManager:
             if problem_type == 'tvg':
                 video_length = data_item.non_tensor_batch["video_length"]
                 score = tvg_compute_score(response_str, ground_truth, video_length)
-            elif problem_type == 'rerank':
-                score = rerank_compute_score(response_str, ground_truth)
             else:
                 score = self.compute_score(response_str, ground_truth)
             reward_tensor[i, valid_response_length - 1] = score
