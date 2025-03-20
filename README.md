@@ -27,8 +27,9 @@ pip install -e .
 ```
 
 ## Dataset
+1. Download the [annotation files and videos](https://huggingface.co/datasets/appletea2333/temporal_r1)
 
-You need to create a file named tvg.yaml under examples/data_config with the following content:
+2. You need to create a file named `tvg.yaml` under  `examples/data_config` with the following content:
 
 ```
 datasets:
