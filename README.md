@@ -11,9 +11,9 @@ Thanks to the powerful performance of reasoning capabilities of DeepSeek-R1, rei
 [2025/3/20] 🔥 The xxx has been released! Please check our huggingface repo. [[Checkpoints](https://huggingface.co/datasets/)]
 
 ## Experimental Setting
-* Training-Framework: We utilize the [Easy-R1](https://github.com/hiyouga/EasyR1) framework and contribute through code and bug fixes.
+* Training-Framework: We utilize the [Easy-R1](https://github.com/hiyouga/EasyR1) framework and contribute to video training.
 * Model: We select [Qwen2.5-VL-3B](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct) as base model.
-* Dataset: Charades, ActivityNet-tvg and ActivityNet-rtl.
+* Dataset: Charades and ActivityNet-tvg.
 
 ## Installation Guide
 ```
@@ -41,7 +41,7 @@ datasets:
 The json_path is the dataset file, and the data_folder stores the videos.
 
 ## Usage Instructions
-Prepare Data: Place your temporal sequence data in the data/ directory.
+
 Train the Model:
 ```
 bash examples/qwen2_5_vl_3b_tvg.sh
@@ -61,6 +61,7 @@ bash third_party/lmms-eval/examples/eval_tvg_r1.sh $GPUS $MODEL_PATH $TASKS
 |------|------------------|----------|------------|------------|-----------|
 | 3b    | 2048         | ❌     | ❌ | 37.22     | 18.92 |
 | 3b    | 2048         | SFT    | ❌ | 45.95     | 20.86 |
+| 3b    | 2048         | ✅    | ❌ | 51.10     | 22.10 |
 | 3b    | 2048         | ✅     | ✅ | 53.93 <span style="color: green;">(**+7.98**)</span>    | 23.07 <span style="color: green;">(**+2.21**)</span>|
 
 **1. Video Temporal Grounding Results**
