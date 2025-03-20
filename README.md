@@ -16,23 +16,44 @@ Thanks to the powerful performance of reasoning capabilities of DeepSeek-R1, rei
 * Dataset: Charades, ActivityNet-tvg and ActivityNet-rtl.
 
 ## Installation Guide
-Clone the repository:
 ```
 git clone https://github.com/your-username/Temporal-R1.git
+cd Temporal-R1
+pip install -e .
+
+# eval with lmms-eval
+cd ../third_party/lmms-eval
+pip install -e .
 ```
-Install dependencies:
+
+## Dataset
+
+You need to create a file named tvg.yaml under examples/data_config with the following content:
+
 ```
-pip install -r requirements.txt
+datasets:
+    - json_path: xxx.json
+      data_folder: xx
+    - json_path: yyy.json
+      data_folder: yy
 ```
+The json_path is the dataset file, and the data_folder stores the videos.
+
 ## Usage Instructions
 Prepare Data: Place your temporal sequence data in the data/ directory.
 Train the Model:
 ```
-python train.py --config configs/default.yaml
+bash examples/qwen2_5_vl_3b_tvg.sh
 ```
 Run Inference:
 ```
-python inference.py --model_path models/best_model.pth
+# Custom Inference
+bash third_party/lmms-eval/examples/eval_tvg.sh $GPUS $MODEL_PATH $TASKS
+
+# R1 Inference
+bash third_party/lmms-eval/examples/eval_tvg_r1.sh $GPUS $MODEL_PATH $TASKS
+
+# task uses temporal_grounding_charades,temporal_grounding_activitynet
 ```
 ## Experimental Results
 | Para. | token         | RL  |think | mIoU(Charades)  | mIoU(ANet-tvg, OOD)       |
