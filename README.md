@@ -60,7 +60,7 @@ bash third_party/lmms-eval/examples/eval_tvg_r1.sh $GPUS $MODEL_PATH $TASKS
 | Para. | token         | RL  |think | mIoU(Charades)  | mIoU(ANet-tvg, OOD)       | Checkpoint|
 |------|------------------|----------|------------|------------|-----------|-----------|
 | 3b    | 2048         | ❌     | ❌ | 37.22     | 18.92 | [Qwen/Qwen2.5-VL-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct)|
-| 3b    | 2048         | SFT    | ❌ | 45.95     | 20.86 |[Temporal-R1-3B-Charades](https://huggingface.co/appletea2333/SFT-3B-Charades) |
+| 3b    | 2048         | SFT    | ❌ | 45.95     | 20.86 |[SFT-3B-Charades](https://huggingface.co/appletea2333/SFT-3B-Charades) |
 | 3b    | 2048         | ✅    | ❌ | 51.10     | 22.10 |[Temporal-R1-3B-Charades](https://huggingface.co/appletea2333/Temporal-R1-3B-Charades) |
 | 3b    | 2048         | ✅     | ✅ | 53.93 <span style="color: green;">(**+7.98**)</span>    | 23.07 <span style="color: green;">(**+2.21**)</span>| [Temporal-R1-3B-Charades](https://huggingface.co/appletea2333/Temporal-R1-3B-Charades) |
 
@@ -78,9 +78,9 @@ From the left figure, it can be observed that the average reward increases progr
 
 ## TODO:
 
--Scale up model, datasets
+- Scale up model, datasets
 
--Widen more downstream tasks, e.g., VideoQA, Temporal Referring, Video Captioning, etc.
+- Widen more downstream tasks, e.g., VideoQA, Temporal Referring, Video Captioning, etc.
 
 ## Acknowledgments
 We want to thank [EasyR1](https://github.com/hiyouga/EasyR1), [Qwen2.5-VL](https://github.com/QwenLM/Qwen2.5-VL), [llama-factory](https://github.com/hiyouga/LLaMA-Factory) and [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval) for publicly releasing their code and pretrained models.
