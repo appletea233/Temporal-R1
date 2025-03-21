@@ -18,5 +18,5 @@ accelerate launch --num_processes=$GPUS --main_process_port 12345 -m lmms_eval \
   --batch_size 1 \
   --log_samples \
   --log_samples_suffix debug \
-  --output_path $MODEL_PATH/lmms_eval/logs/gpu_${GPUS}_visual_token_${VISUAL_TOKEN}/$TASKS  \
+  --output_path $MODEL_PATH/lmms_eval/logs/gpu_${GPUS}_visual_token_${VISUAL_TOKEN}/tvg  \
   --verbosity=DEBUG

@@ -8,7 +8,7 @@
 Thanks to the powerful performance of reasoning capabilities of DeepSeek-R1, reinforcement learning-based fine-tuning paradigms have garnered widespread attention from researchers. Some studies have explored the preliminary performance of GRPO in multimodal tasks, such as object localization, counting, etc. We investigate the potential of GRPO in the video temporal grounding task, which demands precise temporal alignment between visual and linguistic modalities as well as advanced reasoning capabilities. This task is particularly well-suited for our approach due to its reliance on fine-grained temporal dynamics, which facilitate the development of intuitive rule-based reward mechanisms and enable the model to iteratively refine its reasoning and outputs.
 
 ## News
-[2025/3/20] 🔥 The xxx has been released! Please check our huggingface repo. [[Checkpoints](https://huggingface.co/datasets/)]
+[2025/3/20] 🔥 The xxx has been released! Please check our huggingface repo. [[Checkpoints](https://huggingface.co/appletea2333/Temporal-R1-3B-Charades)]
 
 ## Experimental Setting
 * Training-Framework: We utilize the [Easy-R1](https://github.com/hiyouga/EasyR1) framework and contribute to video training.
@@ -17,7 +17,7 @@ Thanks to the powerful performance of reasoning capabilities of DeepSeek-R1, rei
 
 ## Installation Guide
 ```
-git clone https://github.com/your-username/Temporal-R1.git
+git clone https://github.com/appletea233/Temporal-R1.git
 cd Temporal-R1
 pip install -e .
 
@@ -57,12 +57,12 @@ bash third_party/lmms-eval/examples/eval_tvg_r1.sh $GPUS $MODEL_PATH $TASKS
 # task uses temporal_grounding_charades,temporal_grounding_activitynet
 ```
 ## Experimental Results
-| Para. | token         | RL  |think | mIoU(Charades)  | mIoU(ANet-tvg, OOD)       |
-|------|------------------|----------|------------|------------|-----------|
-| 3b    | 2048         | ❌     | ❌ | 37.22     | 18.92 |
-| 3b    | 2048         | SFT    | ❌ | 45.95     | 20.86 |
-| 3b    | 2048         | ✅    | ❌ | 51.10     | 22.10 |
-| 3b    | 2048         | ✅     | ✅ | 53.93 <span style="color: green;">(**+7.98**)</span>    | 23.07 <span style="color: green;">(**+2.21**)</span>|
+| Para. | token         | RL  |think | mIoU(Charades)  | mIoU(ANet-tvg, OOD)       | Checkpoint|
+|------|------------------|----------|------------|------------|-----------|-----------|
+| 3b    | 2048         | ❌     | ❌ | 37.22     | 18.92 | [Qwen/Qwen2.5-VL-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct)|
+| 3b    | 2048         | SFT    | ❌ | 45.95     | 20.86 |[/mnt/dolphinfs/ssd_pool/docker/user/hadoop-mtcv/lihongyu/projects/video_llm/codes/VLM-R1/src/LLaMA-Factory/saves/qwen2_5_vl-3b/full/sft-max-50176-unfreeze](https://huggingface.co/appletea2333/SFT-3B-Charades) |
+| 3b    | 2048         | ✅    | ❌ | 51.10     | 22.10 |[Temporal-R1-3B-Charades](https://huggingface.co/appletea2333/Temporal-R1-3B-Charades) |
+| 3b    | 2048         | ✅     | ✅ | 53.93 <span style="color: green;">(**+7.98**)</span>    | 23.07 <span style="color: green;">(**+2.21**)</span>| [Temporal-R1-3B-Charades](https://huggingface.co/appletea2333/Temporal-R1-3B-Charades) |
 
 **1. Video Temporal Grounding Results**
 
