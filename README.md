@@ -8,7 +8,7 @@
 Thanks to the powerful performance of reasoning capabilities of DeepSeek-R1, reinforcement learning-based fine-tuning paradigms have garnered widespread attention from researchers. Some studies have explored the preliminary performance of GRPO in multimodal tasks, such as object localization, counting, etc. We investigate the potential of GRPO in the video temporal grounding task, which demands precise temporal alignment between visual and linguistic modalities as well as advanced reasoning capabilities. This task is particularly well-suited for our approach due to its reliance on fine-grained temporal dynamics, which facilitate the development of intuitive rule-based reward mechanisms and enable the model to iteratively refine its reasoning and outputs.
 
 ## News
-[2025/3/20] 🔥 The code and checkpoints has been released! Please check our huggingface repo. [[Checkpoints](https://huggingface.co/appletea2333)]
+[2025/3/21] 🔥 The code and checkpoints has been released! Please check our huggingface repo. [[Checkpoints](https://huggingface.co/appletea2333)]
 
 ## Experimental Setting
 * Training-Framework: We utilize the [Easy-R1](https://github.com/hiyouga/EasyR1) framework and contribute to video training.
