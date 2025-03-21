@@ -1,7 +1,7 @@
 # Temporal-R1: Envolving Temporal Reasoning Capability into LMMs via Temporal Consistent Reward
 
 <div align="center">
-<img src="./pics/intro img.png" width="500"/>
+<img src="./pics/fig1.png" width="1000"/>
 </div>
 
 ## Project Introduction
