@@ -1,4 +1,4 @@
-# Temporal-R1: Envolving Temporal Reasoning Capability into LMMs via Temporal Consistent Reward
+# Envolving Temporal Reasoning Capability into LMMs via Temporal Consistent Reward
 
 <div align="center">
 <img src="./pics/fig1.png" width="1000"/>
@@ -95,7 +95,7 @@ Contributors: [Hongyu Li](https://github.com/appletea233), [Songhao Han](https:/
 
 ```bibtex
 @misc{li2025temporalr1,
-  title        = {Temporal-R1: Envolving Temporal Reasoning Capability into LMMs via Temporal Consistent Reward},
+  title        = {Envolving Temporal Reasoning Capability into LMMs via Temporal Consistent Reward},
   author       = {Hongyu Li, Songhao Han, Yue Liao, Jialin Gao, Si Liu},
   howpublished = {\url{https://github.com/appletea233/Temporal-R1}},
   year         = {2025}
