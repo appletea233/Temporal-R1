@@ -8,7 +8,7 @@
 Thanks to the powerful performance of reasoning capabilities of DeepSeek-R1, reinforcement learning-based fine-tuning paradigms have garnered widespread attention from researchers. Some studies have explored the preliminary performance of GRPO in multimodal tasks, such as object localization, counting, etc. We investigate the potential of GRPO in the video temporal grounding task, which demands precise temporal alignment between visual and linguistic modalities as well as advanced reasoning capabilities. This task is particularly well-suited for our approach due to its reliance on fine-grained temporal dynamics, which facilitate the development of intuitive rule-based reward mechanisms and enable the model to iteratively refine its reasoning and outputs.
 
 ## News
-[2025/3/20] 🔥 The xxx has been released! Please check our huggingface repo. [[Checkpoints](https://huggingface.co/appletea2333/Temporal-R1-3B-Charades)]
+[2025/3/20] 🔥 The code and checkpoints has been released! Please check our huggingface repo. [Checkpoints](https://huggingface.co/appletea2333)
 
 ## Experimental Setting
 * Training-Framework: We utilize the [Easy-R1](https://github.com/hiyouga/EasyR1) framework and contribute to video training.
@@ -22,7 +22,7 @@ cd Temporal-R1
 pip install -e .
 
 # eval with lmms-eval
-cd ../third_party/lmms-eval
+cd third_party/lmms-eval
 pip install -e .
 ```
 
@@ -66,7 +66,7 @@ bash third_party/lmms-eval/examples/eval_tvg_r1.sh $GPUS $MODEL_PATH $TASKS
 
 **1. Video Temporal Grounding Results**
 
-Experimental results demonstrate that, compared to the SFT model, the GRPO-trained model not only achieves significant performance improvements but also exhibits reasoning ("think") capabilities and stronger generalization. Specifically, the mIoU on the Charades dataset increased by **+7.98**, while the mIoU on the ActivityNet benchmark also showed a improvement (**+2.21**). These findings indicate that GRPO training enables the model to perform better in complex tasks and adapt more effectively to diverse data distributions.
+Experimental results demonstrate that, compared to the SFT model, the GRPO-trained model not only achieves significant performance improvements but also exhibits reasoning ("think") capabilities and stronger generalization. Specifically, the mIoU on the Charades dataset increased by **+7.98**, while the mIoU on the ActivityNet benchmark also showed a improvement (**+2.21**). These findings indicate that GRPO training enables the model to perform better in complex tasks and adapt more effectively to diverse data distributions. In addition, we also evaluated the model's performance when generating only the final output without including its reasoning process. The experimental results indicate that performance declines across the board, suggesting that the inclusion of a reasoning process has a positive effect on our model. We plan to release more related experimental results in the future.
 
 **2.Training Phenomena**
 
@@ -75,6 +75,8 @@ Experimental results demonstrate that, compared to the SFT model, the GRPO-train
 </div>
 From the left figure, it can be observed that the average reward increases progressively during training and eventually converges to a stable value. This indicates that the reward we design is reasonable and effectively guides the model in optimizing the objective and is improving performance. The right figure illustrates the variation in the token length of responses. Initially, the length increases rapidly, followed by a sharp decline, and then fluctuates upward within a certain range. This phenomenon is consistent with the training characteristics of DeepSeek-Zero, reflecting the model’s adaptive adjustment of length during generation. Such dynamic changes may represent the model's natural behavior in balancing output quality and complexity, further validating the effectiveness and rationality of the training strategy.
 
+**3. VideoQA Results**
+We explored the performance of our model when directly tested on the VideoQA task using MVBench. Our model achieves an accuracy of 59.6, slightly lower than the base model's 63.35. However, the model fine-tuned through direct supervised fine-tuning on the same training data completely lost its ability to output valid options. This phenomenon highlights that reinforcement learning-based fine-tuning preserves a significantly higher degree of generalization compared to SFT.
 
 ## TODO:
 
