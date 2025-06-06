@@ -1,19 +1,16 @@
-# Envolving Temporal Reasoning Capability into LMMs via Temporal Consistent Reward
+# Reinforcement Learning Tuning for VideoLLMs: Reward Design and Data Efficiency
 
 <div align="center">
 <img src="./pics/fig1.png" width="1000"/>
 </div>
 
 ## Project Introduction
-Thanks to the powerful performance of reasoning capabilities of DeepSeek-R1, reinforcement learning-based fine-tuning paradigms have garnered widespread attention from researchers. Some studies have explored the preliminary performance of GRPO in multimodal tasks, such as object localization, counting, etc. We investigate the potential of GRPO in the video temporal grounding task, which demands precise temporal alignment between visual and linguistic modalities as well as advanced reasoning capabilities. This task is particularly well-suited for our approach due to its reliance on fine-grained temporal dynamics, which facilitate the development of intuitive rule-based reward mechanisms and enable the model to iteratively refine its reasoning and outputs.
+
+Understanding real-world videos with complex semantics and long temporal dependencies remains a fundamental challenge in computer vision. Recent progress in multimodal large language models (MLLMs) has demonstrated strong capabilities in vision-language tasks, while reinforcement learning tuning (RLT) has further improved their reasoning abilities. In this work, we explore RLT as a post-training strategy to enhance the video-specific reasoning capabilities of MLLMs. Built upon the Group Relative Policy Optimization (GRPO) framework, we propose a dual-reward formulation that supervises both semantic and temporal reasoning through discrete and continuous reward signals. To facilitate effective preference-based optimization, we introduce a variance-aware data selection strategy based on repeated inference to identify samples that provide informative learning signals. We evaluate our approach across eight representative video understanding tasks, including VideoQA, Temporal Video Grounding, and Grounded VideoQA. Our method consistently outperforms supervised fine-tuning and existing RLT baselines, achieving superior performance with significantly less training data. These results underscore the importance of reward design and data selection in advancing reasoning-centric video understanding with MLLMs.
 
 ## News
-[2025/3/21] 🔥 The code and checkpoints has been released! Please check our huggingface repo. [[Checkpoints](https://huggingface.co/appletea2333)]
-
-## Experimental Setting
-* Training-Framework: We utilize the [Easy-R1](https://github.com/hiyouga/EasyR1) framework and contribute to video training.
-* Model: We select [Qwen2.5-VL-3B](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct) as base model.
-* Dataset: Charades and ActivityNet-tvg.
+* [2025/3/21] 🔥 The initial version of the code has been released!  Please check our huggingface repo. [[Checkpoints](https://huggingface.co/appletea2333)]
+* [2025/6/2] 📄 The paper has been released!  [[Paper](https://arxiv.org/pdf/2506.01908)] 
 
 ## Installation Guide
 ```
@@ -81,23 +78,16 @@ From the left figure, it can be observed that the average reward increases progr
 
 We also explored the performance of our model when directly tested on the VideoQA task using **MVBench**. Our model achieves an accuracy of 59.6, slightly lower than the base model's 63.35. However, the model fine-tuned through direct supervised fine-tuning on the same training data completely **lost its ability to output valid options**. This phenomenon highlights that reinforcement learning-based fine-tuning preserves a significantly higher degree of generalization compared to SFT.
 
-## TODO:
-
-- Scale up model, datasets
-
-- Widen more downstream tasks, e.g., VideoQA, Temporal Referring, Video Captioning, etc.
-
 ## Acknowledgments
 We want to thank [EasyR1](https://github.com/hiyouga/EasyR1), [Qwen2.5-VL](https://github.com/QwenLM/Qwen2.5-VL), [llama-factory](https://github.com/hiyouga/LLaMA-Factory) and [lmms-eval](https://github.com/EvolvingLMMs-Lab/lmms-eval) for publicly releasing their code and pretrained models.
 
 ## Citation
-Contributors: [Hongyu Li](https://github.com/appletea233), [Songhao Han](https://github.com/hshjerry), [Yue Liao](https://github.com/YueLiao), [Jialin Gao](https://scholar.google.com/citations?user=sj4FqEgAAAAJ&hl=zh-CN), [Si Liu](https://scholar.google.com/citations?user=-QtVtNEAAAAJ&hl=zh-CN)
-
+Contributors: [Hongyu Li](https://scholar.google.com/citations?hl=en&user=PccL82sAAAAJ), [Songhao Han](https://scholar.google.com/citations?hl=en&user=s-exUYYAAAAJ), [Yue Liao](https://scholar.google.com/citations?hl=en&user=mIt-3fEAAAAJ&view_op=list_works&sortby=pubdate), Junfeng Luo, [Jialin Gao](https://scholar.google.com/citations?user=sj4FqEgAAAAJ&hl=zh-CN), [Shuicheng Yan](https://scholar.google.com/citations?user=DNuiPHwAAAAJ&hl=en&oi=ao), [Si Liu](https://scholar.google.com/citations?user=-QtVtNEAAAAJ&hl=zh-CN)
 ```bibtex
-@misc{li2025temporalr1,
-  title        = {Envolving Temporal Reasoning Capability into LMMs via Temporal Consistent Reward},
-  author       = {Hongyu Li, Songhao Han, Yue Liao, Jialin Gao, Si Liu},
-  howpublished = {\url{https://github.com/appletea233/Temporal-R1}},
-  year         = {2025}
+@article{li2025reinforcement,
+  title={Reinforcement Learning Tuning for VideoLLMs: Reward Design and Data Efficiency},
+  author={Li, Hongyu and Han, Songhao and Liao, Yue and Luo, Junfeng and Gao, Jialin and Yan, Shuicheng and Liu, Si},
+  journal={arXiv preprint arXiv:2506.01908},
+  year={2025}
 }
 ```
