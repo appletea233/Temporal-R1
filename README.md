@@ -9,8 +9,9 @@
 Understanding real-world videos with complex semantics and long temporal dependencies remains a fundamental challenge in computer vision. Recent progress in multimodal large language models (MLLMs) has demonstrated strong capabilities in vision-language tasks, while reinforcement learning tuning (RLT) has further improved their reasoning abilities. In this work, we explore RLT as a post-training strategy to enhance the video-specific reasoning capabilities of MLLMs. Built upon the Group Relative Policy Optimization (GRPO) framework, we propose a dual-reward formulation that supervises both semantic and temporal reasoning through discrete and continuous reward signals. To facilitate effective preference-based optimization, we introduce a variance-aware data selection strategy based on repeated inference to identify samples that provide informative learning signals. We evaluate our approach across eight representative video understanding tasks, including VideoQA, Temporal Video Grounding, and Grounded VideoQA. Our method consistently outperforms supervised fine-tuning and existing RLT baselines, achieving superior performance with significantly less training data. These results underscore the importance of reward design and data selection in advancing reasoning-centric video understanding with MLLMs.
 
 ## News
-* [2025/3/21] 🔥 The initial version of the code has been released!  Please check our huggingface repo. [[Checkpoints](https://huggingface.co/appletea2333)]
-* [2025/6/2] 📄 The paper has been released!  [[Paper](https://arxiv.org/pdf/2506.01908)] 
+* [2025/3/21] 🔥 The initial version of the code has been released! Please check our Hugging Face repo. [[Checkpoints](https://huggingface.co/appletea2333)]  
+* [2025/6/2] 📄 The paper has been released! [[Paper](https://arxiv.org/pdf/2506.01908)]  
+* [ ] ⏰ New version code, including optimized reward mechanisms and additional datasets, is coming soon.
 
 ## Installation Guide
 ```
